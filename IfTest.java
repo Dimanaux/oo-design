@@ -1,6 +1,6 @@
 import java.util.Arrays;
 
-public interface TestIf {
+public interface IfTest {
     static void main(String[] args) {
         new If(args.length > 0) {
             void then() {
