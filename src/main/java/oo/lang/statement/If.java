@@ -1,11 +1,15 @@
 package oo.lang.statement;
 
+import oo.lang.Bool;
+
 public abstract class If {
     If(Bool control) {
         control.evaluate(this);
     }
 
-    abstract void then();
-    void otherwise() {}
+    public abstract void then();
+
+    public void otherwise() {
+    }
 }
 

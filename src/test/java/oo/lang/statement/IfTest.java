@@ -1,7 +1,5 @@
 package oo.lang.statement;
 
-import java.util.Arrays;
-
 import oo.lang.Bool;
 
 public class IfTest {
@@ -11,8 +9,8 @@ public class IfTest {
         test.checkElse();
     }
 
-    Object whenThen = new Object();
-    Object whenElse = new Object();
+    private Object whenThen = new Object();
+    private Object whenElse = new Object();
 
     public void checkThen() {
         Object result;
@@ -20,6 +18,7 @@ public class IfTest {
             public void then() {
                 result = whenThen;
             }
+
             public void otherwise() {
                 result = whenElse;
             }
@@ -33,6 +32,7 @@ public class IfTest {
             public void then() {
                 result = whenThen;
             }
+
             public void otherwise() {
                 result = whenElse;
             }
