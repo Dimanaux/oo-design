@@ -1,13 +1,8 @@
 package oo.lang.statement;
 
 public abstract class If {
-    If(boolean condition) {
-        // TODO: refactor
-        if (condition) {
-            then();
-        } else {
-            otherwise();
-        }
+    If(Bool control) {
+        control.evaluate(this);
     }
 
     abstract void then();
