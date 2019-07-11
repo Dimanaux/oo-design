@@ -1,14 +1,34 @@
 package oo.lang.statement;
 
-import oo.lang.Bool;
+public class If {
+    private final boolean condition;
+    private boolean done = false;
 
-public abstract class If {
-    If(Bool control) {
-        control.evaluate(this);
+    public If(boolean condition) {
+        this.condition = condition;
     }
 
-    public abstract void then();
+    private If(boolean condition, boolean done) {
+        this(condition);
+        this.done = done;
+    }
 
-    public void otherwise() {
+    public If then(Runnable then) {
+        if (condition && !done) {
+            then.run();
+            done = true;
+        }
+        return this;
+    }
+
+    public If elseIf(boolean condition) {
+        return new If(condition, done);
+    }
+
+    public void otherwise(Runnable otherwise) {
+        if (!condition && !done) {
+            otherwise.run();
+            done = true;
+        }
     }
 }
