@@ -12,4 +12,3 @@ public abstract class If {
     public void otherwise() {
     }
 }
-

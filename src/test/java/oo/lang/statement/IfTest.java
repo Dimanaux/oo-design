@@ -9,35 +9,61 @@ public class IfTest {
         test.checkElse();
     }
 
-    private Object whenThen = new Object();
-    private Object whenElse = new Object();
+    private String state;
 
-    public void checkThen() {
-        Object result;
-        new If(Bool.TRUE) {
-            public void then() {
-                result = whenThen;
-            }
-
-            public void otherwise() {
-                result = whenElse;
-            }
-        };
-        assert result == whenThen : "Expected then() invocation in If(TRUE)";
+    private void setState(String state) {
+        this.state = state;
     }
 
-    public void checkElse() {
-        Object result;
+    private String ok = "then() was invoked.";
+    private String fail = "otherwise() was invoked.";
+    private String nothingHappened = "nothing happened.";
+
+    private void checkThen() {
+        setState(nothingHappened);
         new If(Bool.TRUE) {
             public void then() {
-                result = whenThen;
+                setState(ok);
             }
 
             public void otherwise() {
-                result = whenElse;
+                setState(fail);
             }
         };
-        assert result == whenElse : "Expected otherwise() invocation in If(FALSE)";
+        assert state.equals(ok) : "Expected then() to be invoked, but " + state;
+    }
+
+    private void checkElse() {
+        setState(nothingHappened);
+        new If(Bool.FALSE) {
+            public void then() {
+                setState(fail);
+            }
+
+            public void otherwise() {
+                setState(ok);
+            }
+        };
+        assert state.equals(ok) : "Expected otherwise() to be envoced, but " + state;
+    }
+
+    private void checkEmptyElse() {
+        setState(nothingHappened);
+        new If(Bool.TRUE) {
+            public void then() {
+                setState(ok);
+            }
+        };
+        assert state.equals(ok) : "Expected then() to be invoked, but " + state;
+    }
+
+    private void checkEmptyElseWithFalse() {
+        setState(nothingHappened);
+        new If(Bool.FALSE) {
+            public void then() {
+                setState(fail);
+            }
+        };
+        assert state.equals(nothingHappened) : "Nothing expected, but " + state;
     }
 }
-

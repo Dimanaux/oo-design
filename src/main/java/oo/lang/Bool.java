@@ -18,4 +18,3 @@ public enum Bool {
 
     public abstract void evaluate(If expression);
 }
-
