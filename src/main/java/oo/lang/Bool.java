@@ -6,13 +6,13 @@ public enum Bool {
     FALSE {
         @Override
         public void evaluate(If expression) {
-            expression.then();
+            expression.otherwise();
         }
     },
     TRUE {
         @Override
         public void evaluate(If expression) {
-            expression.otherwise();
+            expression.then();
         }
     };
 

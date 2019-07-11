@@ -7,6 +7,9 @@ public class IfTest {
         IfTest test = new IfTest();
         test.checkThen();
         test.checkElse();
+        test.checkEmptyElse();
+        test.checkEmptyElseWithFalse();
+        System.out.println("All tests passed!");
     }
 
     private String state;
