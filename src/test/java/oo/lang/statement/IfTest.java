@@ -1,72 +1,89 @@
 package oo.lang.statement;
 
-import oo.lang.Bool;
+import org.junit.Assert;
+import org.junit.Before;
+import org.junit.Test;
 
 public class IfTest {
-    public static void main(String[] args) {
-        IfTest test = new IfTest();
-        test.checkThen();
-        test.checkElse();
-        test.checkEmptyElse();
-        test.checkEmptyElseWithFalse();
-        System.out.println("All tests passed!");
-    }
+    String nothing = "nothing happened.";
+    String thenClause = "then clause was invoked.";
+    String firstElseIfClause = "first elseIf clause was invoked.";
+    String secondElseIfClause = "second elseIf clause was invoked.";
+    String otherwiseClause = "otherwise clause was invoked.";
 
     private String state;
 
-    private void setState(String state) {
-        this.state = state;
+    private void setState(String newState) {
+        state = newState;
     }
 
-    private String ok = "then() was invoked.";
-    private String fail = "otherwise() was invoked.";
-    private String nothingHappened = "nothing happened.";
-
-    private void checkThen() {
-        setState(nothingHappened);
-        new If(Bool.TRUE) {
-            public void then() {
-                setState(ok);
-            }
-
-            public void otherwise() {
-                setState(fail);
-            }
-        };
-        assert state.equals(ok) : "Expected then() to be invoked, but " + state;
+    @Before
+    public void init() {
+        setState(nothing);
     }
 
-    private void checkElse() {
-        setState(nothingHappened);
-        new If(Bool.FALSE) {
-            public void then() {
-                setState(fail);
-            }
-
-            public void otherwise() {
-                setState(ok);
-            }
-        };
-        assert state.equals(ok) : "Expected otherwise() to be envoced, but " + state;
+    @Test
+    public void simpleIfTest() {
+        new If(true).then(() -> {
+            setState(thenClause);
+        });
+        Assert.assertEquals(thenClause, state);
     }
 
-    private void checkEmptyElse() {
-        setState(nothingHappened);
-        new If(Bool.TRUE) {
-            public void then() {
-                setState(ok);
-            }
-        };
-        assert state.equals(ok) : "Expected then() to be invoked, but " + state;
+    @Test
+    public void simpleIfWithFalseTest() {
+        new If(false).then(() -> {
+            setState(thenClause);
+        });
+        Assert.assertEquals(nothing, state);
     }
 
-    private void checkEmptyElseWithFalse() {
-        setState(nothingHappened);
-        new If(Bool.FALSE) {
-            public void then() {
-                setState(fail);
-            }
-        };
-        assert state.equals(nothingHappened) : "Nothing expected, but " + state;
+    @Test
+    public void testOtherwiseWithTrueCondition() {
+        new If(true).then(() -> {
+            setState(thenClause);
+        }).otherwise(() -> {
+            setState(otherwiseClause);
+        });
+        Assert.assertEquals(thenClause, state);
+    }
+
+    @Test
+    public void testOtherwiseWithFalseCondition() throws InterruptedException {
+        new If(false).then(() -> {
+            setState(thenClause);
+        }).otherwise(() -> {
+            setState(otherwiseClause);
+        });
+        Assert.assertEquals(otherwiseClause, state);
+    }
+
+    @Test
+    public void testFirstElseIf() {
+        new If(false).then(() -> {
+            setState(thenClause);
+        }).elseIf(true).then(() -> {
+            setState(firstElseIfClause);
+        }).elseIf(false).then(() -> {
+            setState(secondElseIfClause);
+        }).otherwise(() -> {
+            setState(otherwiseClause);
+        });
+        Assert.assertEquals(firstElseIfClause, state);
+    }
+
+    @Test
+    public void fizzBuzz() {
+        Integer i = 15;
+        new If(i % 15 == 0).then(() -> {
+            setState("FizzBuzz");
+        }).elseIf(i % 3 == 0).then(() -> {
+            setState("Fizz");
+        }).elseIf(i % 15 == 0).then(() -> {
+            setState("Buzz");
+        }).otherwise(() -> {
+            setState(i.toString());
+        });
+        Assert.assertEquals("FizzBuzz", state);
     }
 }
