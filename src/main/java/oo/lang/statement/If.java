@@ -8,3 +8,4 @@ public abstract class If {
     abstract void then();
     void otherwise() {}
 }
+

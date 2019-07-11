@@ -1,3 +1,5 @@
+package oo.lang.statement;
+
 import java.util.Arrays;
 
 public interface IfTest {
@@ -13,3 +15,4 @@ public interface IfTest {
         };
     }
 }
+
