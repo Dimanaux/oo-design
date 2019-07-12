@@ -5,18 +5,18 @@ import java.util.Optional;
 
 public class If<T> {
     private final boolean condition;
-    private Optional<T> result = Optional.<T>empty();
+    private Optional<? extends T> result = Optional.<T>empty();
 
     public If(boolean condition) {
         this.condition = condition;
     }
 
-    private If(boolean condition, Optional<T> result) {
+    private If(boolean condition, Optional<? extends T> result) {
         this(condition);
         this.result = result;
     }
 
-    public If then(Supplier<T> then) {
+    public If then(Supplier<? extends T> then) {
         if (condition && !result.isPresent()) {
             result = then.get();
         }
