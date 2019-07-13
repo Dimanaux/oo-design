@@ -1,4 +1,4 @@
-package java.lang.statement;
+package oo.lang.statement;
 
 public class NotExhaustiveIfExpression extends RuntimeException {
     public NotExhaustiveIfExpression() {
@@ -9,4 +9,3 @@ public class NotExhaustiveIfExpression extends RuntimeException {
         super(message);
     }
 }
-

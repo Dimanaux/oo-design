@@ -5,7 +5,7 @@ import java.util.Optional;
 
 public class If<T> {
     private final boolean condition;
-    private Optional<? extends T> result = Optional.<T>empty();
+    private Optional<? extends T> result = Optional.empty();
 
     public If(boolean condition) {
         this.condition = condition;
@@ -16,18 +16,18 @@ public class If<T> {
         this.result = result;
     }
 
-    public If then(Supplier<? extends T> then) {
+    public If<T> then(Supplier<? extends T> then) {
         if (condition && !result.isPresent()) {
-            result = then.get();
+            result = Optional.of(then.get());
         }
         return this;
     }
 
-    public If elseIf(boolean condition) {
-        return new If(condition, result);
+    public If<T> elseIf(boolean condition) {
+        return new If<T>(condition, result);
     }
 
-    public T otherwise(Runnable otherwise) {
+    public T otherwise(Supplier<? extends T> otherwise) {
         if (!result.isPresent()) {
             result = Optional.of(otherwise.get());
         }
