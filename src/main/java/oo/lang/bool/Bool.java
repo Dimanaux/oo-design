@@ -3,25 +3,31 @@ package oo.lang.bool;
 import java.util.HashMap;
 import java.util.Map;
 
-public abstract class Bool {
-    public static final Bool False = FalseClass.False;
-    public static final Bool True = TrueClass.True;
+public interface Bool {
+    Bool False = FalseClass.False;
+    Bool True = TrueClass.True;
 
-    private static final Map<Boolean, Bool> primitiveToObject;
+    Map<Boolean, Bool> primitiveToObject
+            = new HashMap<Boolean, Bool>(2) {{
+        put(false, False);
+        put(true, True);
+    }};
 
-    static {
-        primitiveToObject = new HashMap<>(2);
-        primitiveToObject.put(false, False);
-        primitiveToObject.put(true, True);
-    }
-
-    public static Bool valueOf(boolean primitive) {
+    static Bool valueOf(boolean primitive) {
         return primitiveToObject.get(primitive);
     }
 
-    private Bool() {
+    void onTrue(Runnable action);
+
+    Bool negate();
+
+    Bool and(Bool other);
+
+    default Bool andNot(Bool other) {
+        return this.and(other.negate());
     }
 
-    public abstract void control(If statement);
+    default void onFalse(Runnable action) {
+        this.negate().onTrue(action);
+    }
 }
-
