@@ -17,6 +17,11 @@ public class TrueClass implements Bool {
     }
 
     @Override
+    public Bool or(Bool other) {
+        return this;
+    }
+
+    @Override
     public Bool negate() {
         return False;
     }

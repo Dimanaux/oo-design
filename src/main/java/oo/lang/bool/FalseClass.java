@@ -16,6 +16,11 @@ public class FalseClass implements Bool {
     }
 
     @Override
+    public Bool or(Bool other) {
+        return other;
+    }
+
+    @Override
     public Bool negate() {
         return True;
     }

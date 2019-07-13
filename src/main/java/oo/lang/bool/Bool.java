@@ -23,6 +23,8 @@ public interface Bool {
 
     Bool and(Bool other);
 
+    Bool or(Bool other);
+
     default Bool andNot(Bool other) {
         return this.and(other.negate());
     }
