@@ -7,6 +7,10 @@ import static oo.lang.bool.Bool.False;
 import static oo.lang.bool.Bool.True;
 
 public class BoolTest {
+    private Runnable runtimeException = () -> {
+        throw new RuntimeException();
+    };
+
     @Test
     public void booleanNegationTest() {
         Assert.assertEquals(False, True.negate());
@@ -29,17 +33,29 @@ public class BoolTest {
         Assert.assertEquals(True, True.or(True));
     }
 
+    @Test
+    public void falseIgnoresOnTrue() {
+        False.onTrue(runtimeException);
+    }
+
+    @Test(expected = RuntimeException.class)
+    public void falseCanRunAction() {
+        False.onFalse(runtimeException);
+    }
+
     @Test(expected = RuntimeException.class)
     public void trueCanRunAction() {
-        True.onTrue(() -> {
-            throw new RuntimeException();
-        });
+        True.onTrue(runtimeException);
     }
 
     @Test
-    public void falseCannotRunAction() {
-        False.onTrue(() -> {
-            throw new RuntimeException();
-        });
+    public void trueIgnoresOnFalse() {
+        True.onFalse(runtimeException);
+    }
+
+    @Test
+    public void testPrimitives() {
+        Assert.assertEquals(False, Bool.valueOf(false));
+        Assert.assertEquals(True, Bool.valueOf(true));
     }
 }

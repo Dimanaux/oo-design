@@ -25,10 +25,6 @@ public interface Bool {
 
     Bool or(Bool other);
 
-    default Bool andNot(Bool other) {
-        return this.and(other.negate());
-    }
-
     default void onFalse(Runnable action) {
         this.negate().onTrue(action);
     }
