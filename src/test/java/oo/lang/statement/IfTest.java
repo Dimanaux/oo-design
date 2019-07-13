@@ -1,89 +1,50 @@
 package oo.lang.statement;
 
 import org.junit.Assert;
-import org.junit.Before;
 import org.junit.Test;
 
+import java.util.function.Supplier;
+
 public class IfTest {
-    String nothing = "nothing happened.";
-    String thenClause = "then clause was invoked.";
-    String firstElseIfClause = "first elseIf clause was invoked.";
-    String secondElseIfClause = "second elseIf clause was invoked.";
-    String otherwiseClause = "otherwise clause was invoked.";
+    private Supplier<Integer> zero = () -> 0;
+    private Supplier<Integer> one = () -> 1;
+    private Supplier<Integer> two = () -> 2;
+    private Supplier<Integer> three = () -> 3;
 
-    private String state;
-
-    private void setState(String newState) {
-        state = newState;
-    }
-
-    @Before
-    public void init() {
-        setState(nothing);
+    @Test
+    public void testIfThenElseWithTrue() {
+        Integer result = new If<Integer>(true)
+                .then(one)
+                .otherwise(two);
+        Assert.assertEquals(one.get(), result);
     }
 
     @Test
-    public void simpleIfTest() {
-        new If(true).then(() -> {
-            setState(thenClause);
-        });
-        Assert.assertEquals(thenClause, state);
-    }
-
-    @Test
-    public void simpleIfWithFalseTest() {
-        new If(false).then(() -> {
-            setState(thenClause);
-        });
-        Assert.assertEquals(nothing, state);
-    }
-
-    @Test
-    public void testOtherwiseWithTrueCondition() {
-        new If(true).then(() -> {
-            setState(thenClause);
-        }).otherwise(() -> {
-            setState(otherwiseClause);
-        });
-        Assert.assertEquals(thenClause, state);
-    }
-
-    @Test
-    public void testOtherwiseWithFalseCondition() throws InterruptedException {
-        new If(false).then(() -> {
-            setState(thenClause);
-        }).otherwise(() -> {
-            setState(otherwiseClause);
-        });
-        Assert.assertEquals(otherwiseClause, state);
+    public void testIfThenElseWithFalse() {
+        Integer result = new If<Integer>(false)
+                .then(one)
+                .otherwise(two);
+        Assert.assertEquals(two.get(), result);
     }
 
     @Test
     public void testFirstElseIf() {
-        new If(false).then(() -> {
-            setState(thenClause);
-        }).elseIf(true).then(() -> {
-            setState(firstElseIfClause);
-        }).elseIf(false).then(() -> {
-            setState(secondElseIfClause);
-        }).otherwise(() -> {
-            setState(otherwiseClause);
-        });
-        Assert.assertEquals(firstElseIfClause, state);
+        Integer result =
+                new If<Integer>(false).then(zero)
+                        .elseIf(true).then(one)
+                        .elseIf(false).then(two)
+                        .otherwise(three);
+        Assert.assertEquals(one.get(), result);
     }
 
     @Test
     public void fizzBuzz() {
         Integer i = 15;
-        new If(i % 15 == 0).then(() -> {
-            setState("FizzBuzz");
-        }).elseIf(i % 3 == 0).then(() -> {
-            setState("Fizz");
-        }).elseIf(i % 15 == 0).then(() -> {
-            setState("Buzz");
-        }).otherwise(() -> {
-            setState(i.toString());
-        });
-        Assert.assertEquals("FizzBuzz", state);
+        String result = new If<String>(i % 15 == 0)
+                .then(() -> "FizzBuzz")
+                .elseIf(i % 3 == 0).then(() -> "Fizz")
+                .elseIf(i % 5 == 0).then(() -> "Buzz")
+                .otherwise(i::toString);
+        Assert.assertEquals("FizzBuzz", result);
     }
 }
