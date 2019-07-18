@@ -7,7 +7,7 @@ public class TrueClass implements Bool {
     }
 
     @Override
-    public void onTrue(Runnable action) {
+    public void ifTrue(Runnable action) {
         action.run();
     }
 

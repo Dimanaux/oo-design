@@ -7,7 +7,7 @@ public class FalseClass implements Bool {
     }
 
     @Override
-    public void onTrue(Runnable action) {
+    public void ifTrue(Runnable action) {
     }
 
     @Override
