@@ -1,6 +1,5 @@
 package oo.lang.text;
 
-import java.io.PrintStream;
 import java.util.Iterator;
 import java.util.LinkedList;
 import java.util.List;
@@ -20,8 +19,14 @@ public class AppendableText implements Text {
         append(appendix);
     }
 
-    public void append(Text text) {
+    public AppendableText append(Text text) {
         text.forEach(characters::add);
+        return this;
+    }
+
+    public AppendableText append(Character character) {
+        characters.add(character);
+        return this;
     }
 
     @Override
@@ -32,10 +37,5 @@ public class AppendableText implements Text {
     @Override
     public Iterator<Character> iterator() {
         return characters.iterator();
-    }
-
-    @Override
-    public void print(PrintStream stream) {
-        characters.forEach(stream::print);
     }
 }
