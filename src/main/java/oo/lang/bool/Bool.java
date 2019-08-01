@@ -17,7 +17,7 @@ public interface Bool {
         return primitiveToObject.get(primitive);
     }
 
-    void onTrue(Runnable action);
+    void ifTrue(Runnable action);
 
     Bool negate();
 
@@ -25,7 +25,7 @@ public interface Bool {
 
     Bool or(Bool other);
 
-    default void onFalse(Runnable action) {
-        this.negate().onTrue(action);
+    default void ifFalse(Runnable action) {
+        this.negate().ifTrue(action);
     }
 }

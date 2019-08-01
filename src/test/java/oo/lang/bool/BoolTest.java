@@ -34,23 +34,23 @@ public class BoolTest {
     }
 
     @Test
-    public void falseIgnoresOnTrue() {
-        False.onTrue(runtimeException);
+    public void falseIgnoresIfTrue() {
+        False.ifTrue(runtimeException);
     }
 
     @Test(expected = RuntimeException.class)
     public void falseCanRunAction() {
-        False.onFalse(runtimeException);
+        False.ifFalse(runtimeException);
     }
 
     @Test(expected = RuntimeException.class)
     public void trueCanRunAction() {
-        True.onTrue(runtimeException);
+        True.ifTrue(runtimeException);
     }
 
     @Test
     public void trueIgnoresOnFalse() {
-        True.onFalse(runtimeException);
+        True.ifFalse(runtimeException);
     }
 
     @Test
